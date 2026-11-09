@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    
+    <title>La Cerise | Luxury Restaurant, Bar & Coffee Shop</title>
+    <link rel="icon" type="image/x-icon" href="/favicon/favicon.ico">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        /* Custom overrides and animations */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #171717;
+        }
+        h1, h2, h3, h4, .font-serif {
+            font-family: 'Playfair Display', serif;
+        }
+        .gold-gradient {
+            background: linear-gradient(135deg, #C8A96B 0%, #E5D3A3 50%, #C8A96B 100%);
+        }
+        .gold-border {
+            border-color: #C8A96B;
+        }
+        .cherry-bg {
+            background-color: #7A1F2B;
+        }
+        .cherry-text {
+            color: #7A1F2B;
+        }
+        .steam-animation {
+            background: radial-gradient(circle at 20% 40%, rgba(200,169,107,0.08) 0%, transparent 60%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 0.4; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.05); }
+        }
+        .hover-gold-glow {
+            transition: all 0.3s ease;
+        }
+        .hover-gold-glow:hover {
+            box-shadow: 0 0 15px rgba(200,169,107,0.4);
+            border-color: #C8A96B;
+            transform: translateY(-4px);
+        }
+        .card-bg {
+            background: rgba(23, 23, 23, 0.8);
+            backdrop-filter: blur(2px);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(200,169,107,0.2);
+        }
+        /* Hide scrollbar for cleaner look on gallery */
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+</head>
+<body class="text-[#FAFAF8]">
+
+    <!-- Floating WhatsApp & Sticky Reservation -->
+    <div class="fixed bottom-6 right-6 z-50 flex flex-col gap-4">
+        <a href="#" class="bg-green-600 w-14 h-14 rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-transform">
+            <i class="fab fa-whatsapp text-2xl text-white"></i>
+        </a>
+        <a href="#reservation" class="bg-[#C8A96B] w-14 h-14 rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-transform">
+            <i class="fas fa-calendar-check text-2xl text-[#171717]"></i>
+        </a>
+    </div>
+
+    <!-- HERO SECTION -->
+    <section class="relative min-h-screen flex items-center justify-center overflow-hidden px-6">
+        <!-- Background Steam & Gradients -->
+        <div class="absolute inset-0 bg-[#171717]"></div>
+        <div class="absolute inset-0 steam-animation opacity-30"></div>
+        <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-black/50 via-transparent to-black/80"></div>
+        
+        <div class="relative z-10 text-center max-w-5xl mx-auto">
+            <div class="mb-8 flex justify-center">
+                <!-- Logo placeholder - replace with your actual SVG/PNG -->
+                <div class="w-46 h-24 gold-gradient rounded-full flex items-center justify-center shadow-2xl">
+                    <img src="logo.png" alt="La Cerise" style="height: 180px; width: 180px; margin-bottom: 10px; display: block; margin-left: auto; margin-right: auto;">
+                </div>
+            </div>
+            <h1 class="text-5xl md:text-7xl lg:text-8xl font-black mb-6 tracking-tight">
+                Taste Luxury.<br>
+                <span class="gold-gradient bg-clip-text text-transparent">Sip Elegance.</span>
+            </h1>
+            <p class="text-xl md:text-2xl text-[#E0DCD3] max-w-2xl mx-auto mb-10 font-light">
+                Restaurant • Premium Bar • Artisan Coffee
+            </p>
+            <div class="flex flex-wrap gap-5 justify-center">
+                <a href="#reservation" class="bg-[#C8A96B] text-[#171717] px-8 py-4 rounded-full font-semibold text-lg hover:bg-[#DDBF85] transition-all shadow-xl hover:scale-105">Reserve a Table</a>
+                <a href="menu.html" class="border border-[#C8A96B] text-[#C8A96B] px-8 py-4 rounded-full font-semibold text-lg hover:bg-[#C8A96B] hover:text-[#171717] transition-all shadow-xl">Explore Menu</a>
+            </div>
+            <div class="mt-12 flex flex-wrap justify-center gap-6 text-sm text-[#A9A69B]">
+                <span><i class="far fa-clock mr-2 text-[#C8A96B]"></i> Open Today Until Midnight</span>
+                <span><i class="fas fa-map-marker-alt mr-2 text-[#C8A96B]"></i> Google Maps</span>
+                <span><i class="fab fa-instagram mr-2 text-[#C8A96B]"></i> @lacerise</span>
+            </div>
+        </div>
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <i class="fas fa-chevron-down text-[#C8A96B] text-2xl"></i>
+        </div>
+    </section>
+
+    <!-- ABOUT SECTION (Two Column Luxury) -->
+    <section class="py-24 px-6 max-w-7xl mx-auto">
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+            <div class="relative">
+                <div class="absolute -top-6 -left-6 w-32 h-32 gold-gradient opacity-20 rounded-full blur-3xl"></div>
+                <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&auto=format" alt="Elegant dining" class="rounded-2xl shadow-2xl w-full object-cover h-[500px]">
+                <div class="absolute -bottom-8 -right-8 w-48 h-48 border-2 border-[#C8A96B] rounded-2xl z-[-1]"></div>
+            </div>
+            <div>
+                <span class="text-[#C8A96B] text-sm tracking-widest uppercase font-semibold">Our Story</span>
+                <h2 class="text-4xl md:text-5xl font-bold mt-3 mb-6">More Than Dining.<br>A Sensory Journey.</h2>
+                <p class="text-[#D1CDBF] leading-relaxed text-lg mb-6">At La Cerise, every meal is crafted with passion, every drink tells a story, and every cup of coffee creates a moment worth remembering. Inspired by the richness of French patisseries and the rhythm of urban nightlife.</p>
+                <div class="flex gap-6 items-center mt-8">
+                    <div class="w-16 h-[2px] bg-[#C8A96B]"></div>
+                    <p class="italic text-[#C8A96B]">— Where flavor meets elegance —</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SIGNATURE EXPERIENCE CARDS -->
+    <section class="py-20 px-6 bg-gradient-to-b from-[#171717] to-[#0f0f0f]">
+        <div class="max-w-7xl mx-auto text-center mb-16">
+            <h2 class="text-4xl md:text-5xl font-bold">Signature Experiences</h2>
+            <div class="w-24 h-1 gold-gradient mx-auto mt-4"></div>
+        </div>
+        <div class="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto">
+            <!-- Card 1 -->
+            <div class="glass-card rounded-2xl overflow-hidden hover-gold-glow transition-all group">
+                <div class="h-64 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=600&auto=format" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+                </div>
+                <div class="p-6">
+                    <i class="fas fa-utensils text-3xl text-[#C8A96B] mb-3"></i>
+                    <h3 class="text-2xl font-bold mb-2">Restaurant</h3>
+                    <p class="text-[#C5C0B2]">Elegant dining experience with premium seasonal ingredients.</p>
+                </div>
+            </div>
+            <!-- Card 2 -->
+            <div class="glass-card rounded-2xl overflow-hidden hover-gold-glow transition-all group">
+                <div class="h-64 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=600&auto=format" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+                </div>
+                <div class="p-6">
+                    <i class="fas fa-cocktail text-3xl text-[#C8A96B] mb-3"></i>
+                    <h3 class="text-2xl font-bold mb-2">Premium Bar</h3>
+                    <p class="text-[#C5C0B2]">Cocktails, wines, live nights, and a luxurious atmosphere.</p>
+                </div>
+            </div>
+            <!-- Card 3 -->
+            <div class="glass-card rounded-2xl overflow-hidden hover-gold-glow transition-all group">
+                <div class="h-64 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=600&auto=format" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+                </div>
+                <div class="p-6">
+                    <i class="fas fa-mug-hot text-3xl text-[#C8A96B] mb-3"></i>
+                    <h3 class="text-2xl font-bold mb-2">Coffee Shop</h3>
+                    <p class="text-[#C5C0B2]">Specialty coffee, desserts, meetings, and relaxation.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURED MENU PREVIEW -->
+    <section class="py-24 px-6 max-w-7xl mx-auto">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl md:text-5xl font-bold">Featured Menu</h2>
+            <div class="w-24 h-1 gold-gradient mx-auto mt-4 mb-4"></div>
+            <p class="text-[#C5C0B2]">Discover our signature dishes & drinks</p>
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-3 text-center">
+            <div class="bg-black/40 p-4 rounded-xl border border-[#C8A96B]/30 cursor-pointer hover:bg-[#C8A96B]/10 transition">🍳 Breakfast</div>
+            <div class="bg-black/40 p-4 rounded-xl border border-[#C8A96B]/30 cursor-pointer hover:bg-[#C8A96B]/10 transition">☕ Coffee</div>
+            <div class="bg-black/40 p-4 rounded-xl border border-[#C8A96B]/30 cursor-pointer hover:bg-[#C8A96B]/10 transition">🍸 Cocktails</div>
+            <div class="bg-black/40 p-4 rounded-xl border border-[#C8A96B]/30 cursor-pointer hover:bg-[#C8A96B]/10 transition">🍽️ Mains</div>
+            <div class="bg-black/40 p-4 rounded-xl border border-[#C8A96B]/30 cursor-pointer hover:bg-[#C8A96B]/10 transition">🍰 Desserts</div>
+        </div>
+        <div class="grid md:grid-cols-3 gap-6 mt-12">
+            <div class="flex gap-4 items-center border-b border-white/10 pb-4">
+                <img src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=100&auto=format" class="w-16 h-16 rounded-full object-cover">
+                <div><h4 class="font-bold">Flat White</h4><p class="text-sm text-[#C8A96B]">$5.50</p></div>
+            </div>
+            <div class="flex gap-4 items-center border-b border-white/10 pb-4">
+                <img src="https://images.unsplash.com/photo-1473093295043-cdd812d0e601?w=100&auto=format" class="w-16 h-16 rounded-full object-cover">
+                <div><h4 class="font-bold">Cherry Old Fashioned</h4><p class="text-sm text-[#C8A96B]">$18.00</p></div>
+            </div>
+            <div class="flex gap-4 items-center border-b border-white/10 pb-4">
+                <img src="https://images.unsplash.com/photo-1551024506-0bccd828d307?w=100&auto=format" class="w-16 h-16 rounded-full object-cover">
+                <div><h4 class="font-bold">Crème Brûlée</h4><p class="text-sm text-[#C8A96B]">$12.00</p></div>
+            </div>
+        </div>
+        <div class="text-center mt-12">
+            <a href="menu.html" class="inline-block border border-[#C8A96B] px-8 py-3 rounded-full hover:bg-[#C8A96B] hover:text-black transition">View Full Menu →</a>
+        </div>
+    </section>
+
+    <!-- GALLERY Masonry (Simplified horizontal scroll for demo) -->
+    <section class="py-12">
+        <h2 class="text-4xl font-bold text-center mb-10">Visual Journey</h2>
+        <div class="flex overflow-x-auto gap-4 px-6 scrollbar-hide snap-x">
+            <img src="https://images.unsplash.com/photo-1600891964092-4316c288032e?w=400&auto=format" class="w-80 h-64 object-cover rounded-xl snap-start shadow-xl">
+            <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=400&auto=format" class="w-80 h-72 object-cover rounded-xl snap-start shadow-xl">
+            <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=400&auto=format" class="w-80 h-60 object-cover rounded-xl snap-start shadow-xl">
+            <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&auto=format" class="w-80 h-80 object-cover rounded-xl snap-start shadow-xl">
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="py-24 px-6 bg-[#0a0a0a] text-center">
+        <div class="max-w-3xl mx-auto">
+            <i class="fas fa-quote-left text-5xl text-[#C8A96B] opacity-50"></i>
+            <p class="text-2xl md:text-3xl italic mt-6">"The most elegant coffee and dining experience in town. Every detail, from the gold accents to the cherry cocktails, is perfection."</p>
+            <div class="mt-8 flex justify-center gap-1 text-[#C8A96B]">
+                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+            </div>
+            <p class="mt-4 font-semibold">— Sophia R. / Verified Guest</p>
+        </div>
+    </section>
+
+    <!-- EVENTS & NIGHTLIFE -->
+    <!--<section class="py-20 px-6 max-w-7xl mx-auto">
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+            <div>
+                <span class="text-[#C8A96B] tracking-wider">Don't Miss Out</span>
+                <h2 class="text-4xl md:text-5xl font-bold mt-2">Live Music &<br>DJ Weekends</h2>
+                <div class="mt-6 space-y-4">
+                    <div class="flex justify-between border-b border-white/10 pb-3"><span>🎧 Friday: Deep House</span><span class="text-[#C8A96B]">21:00 - 03:00</span></div>
+                    <div class="flex justify-between border-b border-white/10 pb-3"><span>🍷 Saturday: Wine Tasting</span><span class="text-[#C8A96B]">19:00 - 22:00</span></div>
+                    <div class="flex justify-between border-b border-white/10 pb-3"><span>🎹 Sunday: Jazz Brunch</span><span class="text-[#C8A96B]">12:00 - 16:00</span></div>
+                </div>
+                <a href="#" class="inline-block mt-8 bg-[#C8A96B] text-black px-6 py-3 rounded-full font-semibold">Book an Event →</a>
+            </div>
+            <div class="relative">
+                <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=600&auto=format" class="rounded-2xl shadow-2xl">
+                <div class="absolute top-4 -right-4 bg-[#7A1F2B] text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg">Limited Seats</div>
+            </div>
+        </div>
+    </section>-->
+
+    <!-- RESERVATION SECTION (Glassmorphism Form) -->
+    <section id="reservation" class="py-24 px-6 bg-[url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1600&auto=format')] bg-cover bg-center bg-fixed relative">
+        <div class="absolute inset-0 bg-black/70"></div>
+        <div class="relative z-10 max-w-4xl mx-auto text-center">
+            <h2 class="text-4xl md:text-5xl font-bold">Reserve Your Experience</h2>
+            <p class="text-[#D1CDBF] mt-3 mb-8">Secure your table for an unforgettable evening.</p>
+            <div class="glass-card p-8 rounded-2xl max-w-2xl mx-auto">
+                <div class="grid md:grid-cols-2 gap-5">
+                    <input type="text" placeholder="Full Name" class="bg-black/40 border border-white/20 rounded-xl p-3 text-white focus:border-[#C8A96B] outline-none">
+                    <input type="email" placeholder="Email" class="bg-black/40 border border-white/20 rounded-xl p-3 text-white focus:border-[#C8A96B] outline-none">
+                    <input type="date" class="bg-black/40 border border-white/20 rounded-xl p-3 text-white">
+                    <select class="bg-black/40 border border-white/20 rounded-xl p-3 text-white">
+                        <option>2 Guests</option><option>4 Guests</option><option>6+ Guests</option>
+                    </select>
+                </div>
+                <button class="mt-6 w-full bg-[#C8A96B] text-black font-bold py-3 rounded-xl hover:bg-[#E5D3A3] transition">Confirm Reservation</button>
+                <p class="text-xs text-center mt-4 text-white/50"><i class="fab fa-whatsapp"></i> Or book via WhatsApp: +1 234 567 890</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-[#0f0f0f] py-16 px-6 border-t border-[#C8A96B]/20">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-4 gap-10">
+            <div>
+                <div class="w-16 h-12 black rounded-full flex items-center justify-center mb-4"><img src="logo.png" alt="La Cerise" style="height: 60px; width: 80px; margin-right: 12px;"></div>
+                <p class="text-sm text-[#A9A69B]">Luxury in every sip. Elegance in every bite.</p>
+                <div class="flex gap-4 mt-4">
+                    <a href="#"><i class="fab fa-instagram text-xl hover:text-[#C8A96B]"></i></a>
+                    <a href="#"><i class="fab fa-facebook-f text-xl hover:text-[#C8A96B]"></i></a>
+                </div>
+            </div>
+            <div>
+                <h4 class="font-bold text-lg mb-4">Hours</h4>
+                <p class="text-sm">Mon-Thu: 8am - 12am<br>Fri-Sat: 8am - 2am<br>Sun: 9am - 11pm</p>
+            </div>
+            <div>
+                <h4 class="font-bold text-lg mb-4">Contact</h4>
+                <p class="text-sm">123 Luxury Ave, Downtown<br>+1 (555) 123-4567<br>hello@lacerise.com</p>
+            </div>
+            <div>
+  <h4 class="font-bold text-lg mb-4">Location</h4>
+  
+  <!-- Embedded Map -->
+ <iframe src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d930.1384435587664!2d30.056075167950294!3d-1.9148455946974614!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMcKwNTQnNTQuMSJTIDMwwrAwMycyMC44IkU!5e0!3m2!1sen!2srw!4v1783100138863!5m2!1sen!2srw" 
+ style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+  <!-- Open in Google Maps Link -->
+  <div class="mt-2 text-right">
+    <a 
+      href="https://maps.app.goo.gl/5PFWLqLoeBCiDBXp6" 
+      target="_blank" 
+      rel="noopener noreferrer" 
+      class="text-xs font-semibold text-blue-500 hover:text-blue-600 hover:underline inline-flex items-center gap-1">
+      Open in Google Maps ↗
+    </a>
+  </div>
+</div>
+
+        </div>
+        <div class="text-center text-xs text-[#666] pt-12 mt-8 border-t border-white/5">© 2025 La Cerise — Crafted with passion.</div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<!-- ====== NEW: PWA MANIFEST & META TAGS ====== -->
+<link rel="manifest" href="manifest.json">
+
+<!-- iOS / Safari Support -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="La Cerise">
+<link rel="apple-touch-icon" href="icon-192.png">
+
+<!-- ====== NEW: REGISTER SERVICE WORKER ====== -->
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js')
+        .then(reg => console.log('App installed successfully!'))
+        .catch(err => console.log('Service Worker registration failed:', err));
+    });
+  }
+</script>
+
+    <title>La Cerise – Menu</title>
+    
+    <link rel="icon" type="image/x-icon" href="/favicon/favicon.ico">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+    <style>
+        /* === RESET & BASE === */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+        body {
+            background: #171717;
+            color: #FAFAF8;
+            font-family: 'Poppins', sans-serif;
+            padding-top: 0;
+        }
+
+        /* === HERO SECTION === */
+        .hero {
+            min-height: 92vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(23,23,23,0.92) 0%, rgba(23,23,23,0.6) 100%),
+                        url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=1600&auto=format') center/cover no-repeat;
+            padding: 40px 20px;
+            position: relative;
+            border-bottom: 2px solid rgba(200, 169, 107, 0.2);
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 120px;
+            background: linear-gradient(to top, #171717, transparent);
+        }
+        .hero-content {
+            max-width: 900px;
+            position: relative;
+            z-index: 2;
+        }
+        .hero-content .logo-icon {
+            font-size: 3.5rem;
+            color: #C8A96B;
+            margin-bottom: 10px;
+            display: block;
+        }
+        .hero-content h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3rem, 10vw, 5.5rem);
+            font-weight: 900;
+            background: linear-gradient(135deg, #C8A96B 0%, #E5D3A3 50%, #C8A96B 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.1;
+            margin-bottom: 12px;
+        }
+        .hero-content p {
+            font-size: 1.3rem;
+            font-weight: 300;
+            color: #D1CDBF;
+            letter-spacing: 6px;
+            margin-bottom: 30px;
+        }
+        .hero-content .hero-cta {
+            display: inline-block;
+            background: #C8A96B;
+            color: #171717;
+            font-weight: 600;
+            padding: 14px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            box-shadow: 0 8px 30px rgba(200,169,107,0.25);
+        }
+        .hero-content .hero-cta:hover {
+            background: #E5D3A3;
+            transform: scale(1.04);
+            box-shadow: 0 12px 40px rgba(200,169,107,0.4);
+        }
+
+        /* === STICKY NAVIGATION === */
+        .nav-bar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(23, 23, 23, 0.88);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-bottom: 1px solid rgba(200, 169, 107, 0.15);
+            padding: 10px 20px;
+            display: flex;
+            gap: 8px 20px;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            align-items: center;
+            scrollbar-width: thin;
+            scrollbar-color: #C8A96B transparent;
+        }
+        .nav-bar::-webkit-scrollbar {
+            height: 3px;
+        }
+        .nav-bar::-webkit-scrollbar-thumb {
+            background: #C8A96B;
+            border-radius: 10px;
+        }
+        .nav-bar a {
+            color: #D1CDBF;
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+            padding: 6px 4px;
+            border-bottom: 2px solid transparent;
+            transition: all 0.25s;
+        }
+        .nav-bar a:hover,
+        .nav-bar a:focus {
+            color: #C8A96B;
+            border-bottom-color: #C8A96B;
+        }
+        .nav-bar .nav-brand {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #C8A96B;
+            margin-right: 16px;
+            border-bottom: none;
+            pointer-events: none;
+        }
+        .nav-bar .nav-brand i {
+            margin-right: 6px;
+        }
+
+        /* === CATEGORY SECTIONS (with background images) === */
+        .category-section {
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            position: relative;
+            padding: 20px 20px 40px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid rgba(200, 169, 107, 0.05);
+        }
+
+        /* FIXED: This is the dark, blurred box that CONTAINS the menu items */
+        .category-overlay {
+            background: rgba(23, 23, 23, 0.85);
+            backdrop-filter: blur(3px);
+            -webkit-backdrop-filter: blur(3px);
+            border-radius: 20px;
+            padding: 20px 24px 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+            border: 1px solid rgba(200, 169, 107, 0.08);
+            transition: border-color 0.3s;
+        }
+        .category-overlay:hover {
+            border-color: rgba(200, 169, 107, 0.2);
+        }
+
+        /* Category header */
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 18px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(200, 169, 107, 0.25);
+        }
+        .category-header i {
+            font-size: 1.6rem;
+            color: #C8A96B;
+            opacity: 0.8;
+            width: 32px;
+            text-align: center;
+        }
+        .category-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #FAFAF8;
+            letter-spacing: 0.5px;
+        }
+        .category-header .category-count {
+            margin-left: auto;
+            font-size: 0.8rem;
+            color: #A9A69B;
+            background: rgba(255,255,255,0.06);
+            padding: 4px 14px;
+            border-radius: 30px;
+            border: 1px solid rgba(200,169,107,0.15);
+        }
+
+        /* Menu Grid */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 14px;
+        }
+
+        /* Menu Item Cards */
+        .menu-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(200, 169, 107, 0.12);
+            border-radius: 12px;
+            padding: 14px 16px;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(2px);
+        }
+        .menu-item:hover {
+            border-color: #C8A96B;
+            box-shadow: 0 0 25px rgba(200, 169, 107, 0.1);
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.09);
+        }
+        .item-name {
+            font-weight: 500;
+            font-size: 0.95rem;
+            color: #FAFAF8;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2px;
+        }
+        .item-price {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #C8A96B;
+            margin: 4px 0 10px;
+        }
+        .add-btn {
+            background: transparent;
+            border: 1px solid #C8A96B;
+            color: #C8A96B;
+            padding: 5px 14px;
+            border-radius: 30px;
+            font-size: 0.78rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            align-self: flex-start;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .add-btn:hover {
+            background: #C8A96B;
+            color: #171717;
+            box-shadow: 0 0 18px rgba(200,169,107,0.25);
+        }
+
+        /* === CART SIDEBAR (unchanged) === */
+        .cart-toggle {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #C8A96B;
+            color: #171717;
+            border: none;
+            border-radius: 50%;
+            width: 64px;
+            height: 64px;
+            font-size: 1.8rem;
+            cursor: pointer;
+            box-shadow: 0 8px 30px rgba(200,169,107,0.4);
+            transition: all 0.3s;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .cart-toggle:hover {
+            transform: scale(1.08);
+        }
+        .cart-badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background: #7A1F2B;
+            color: #fff;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            display: none;
+        }
+        .cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: -420px;
+            width: 400px;
+            max-width: 92vw;
+            height: 100vh;
+            background: #1a1a1a;
+            border-left: 1px solid rgba(200,169,107,0.2);
+            padding: 24px 20px;
+            overflow-y: auto;
+            transition: right 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+            z-index: 1100;
+            box-shadow: -10px 0 40px rgba(0,0,0,0.7);
+        }
+        .cart-sidebar.open {
+            right: 0;
+        }
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(200,169,107,0.2);
+            padding-bottom: 16px;
+            margin-bottom: 20px;
+        }
+        .cart-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: #C8A96B;
+        }
+        .cart-close {
+            background: none;
+            border: none;
+            color: #A9A69B;
+            font-size: 1.6rem;
+            cursor: pointer;
+        }
+        .cart-close:hover {
+            color: #FAFAF8;
+        }
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .cart-item-info {
+            flex: 1;
+        }
+        .cart-item-name {
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+        .cart-item-price {
+            font-size: 0.85rem;
+            color: #C8A96B;
+        }
+        .cart-item-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .cart-item-controls button {
+            background: rgba(200,169,107,0.12);
+            border: 1px solid rgba(200,169,107,0.2);
+            color: #FAFAF8;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .cart-item-controls button:hover {
+            background: #C8A96B;
+            color: #171717;
+        }
+        .cart-item-qty {
+            min-width: 22px;
+            text-align: center;
+            font-weight: 600;
+        }
+        .cart-item-remove {
+            background: none;
+            border: none;
+            color: #7A1F2B;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-left: 4px;
+        }
+        .cart-item-remove:hover {
+            color: #FAFAF8;
+        }
+        .cart-total {
+            margin-top: 24px;
+            padding-top: 16px;
+            border-top: 2px solid rgba(200,169,107,0.3);
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            display: flex;
+            justify-content: space-between;
+            color: #FAFAF8;
+        }
+        .cart-total span:last-child {
+            color: #C8A96B;
+        }
+        .cart-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+        }
+        .cart-actions button {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-clear {
+            background: transparent;
+            border: 1px solid #7A1F2B;
+            color: #7A1F2B;
+        }
+        .btn-clear:hover {
+            background: #7A1F2B;
+            color: #FAFAF8;
+        }
+        .btn-checkout {
+            background: #C8A96B;
+            color: #171717;
+        }
+        .btn-checkout:hover {
+            background: #E5D3A3;
+        }
+        .empty-cart {
+            text-align: center;
+            color: #A9A69B;
+            padding: 40px 0;
+        }
+        .empty-cart i {
+            font-size: 3rem;
+            margin-bottom: 12px;
+            opacity: 0.3;
+        }
+
+        /* Modal backdrop overlay (for cart) - this remains display:none by default */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 1050;
+            display: none;
+        }
+        .overlay.show {
+            display: block;
+        }
+
+        @media (max-width: 640px) {
+            .category-overlay {
+                padding: 16px 12px 20px;
+            }
+            .category-header h2 {
+                font-size: 1.5rem;
+            }
+            .menu-grid {
+                grid-template-columns: 2fr;
+            }
+            .cart-sidebar {
+                width: 100%;
+                right: -100%;
+            }
+            .nav-bar {
+                gap: 6px 12px;
+                padding: 8px 12px;
+            }
+            .nav-bar a {
+                font-size: 0.7rem;
+            }
+            .nav-bar .nav-brand {
+                font-size: 0.9rem;
+                margin-right: 8px;
+            }
+            
+        }
+        @media (max-width: 500px) {
+            .menu-grid {
+                grid-template-columns: 2fr;
+            }
+            
+        }
+
+        .cart-sidebar::-webkit-scrollbar { width: 4px; }
+        .cart-sidebar::-webkit-scrollbar-thumb { background: #C8A96B; border-radius: 10px; }
+    </style>
+</head>
+<body>
+
+    <!-- ====== HERO SECTION ====== -->
+    <section class="hero" id="top">
+        <div class="hero-content">
+            <img src="logo.png" alt="La Cerise" style="height: 200px; width: 200px; margin-bottom: 10px; display: block; margin-left: auto; margin-right: auto;">
+            <h1>La Cerise</h1>
+            <p>Coffee · Cuisine · Cocktails</p>
+            <a href="#category-0" class="hero-cta"><i class="fas fa-utensils"></i> Explore Our Menu</a>
+        </div>
+    </section>
+
+    <!-- ====== STICKY NAVIGATION ====== -->
+    <nav class="nav-bar" id="navbar">
+        <img src="logo.png" alt="La Cerise" style="height: 35px; width: auto; margin-right: 12px;">
+        <div id="navLinks" style="display:flex; gap:inherit; flex-wrap:nowrap;"></div>
+    </nav>
+
+    <!-- ====== MENU CONTAINER ====== -->
+    <div id="menu-container" style="padding: 10px 0 30px;"></div>
+
+    <!-- ====== CART BUTTON & SIDEBAR ====== -->
+    <button class="cart-toggle" id="cartToggle" aria-label="Open cart">
+        <i class="fas fa-shopping-bag"></i>
+        <span class="cart-badge" id="cartBadge">0</span>
+    </button>
+    <div class="overlay" id="overlay"></div>
+
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h2><i class="fas fa-shopping-bag" style="margin-right:10px;"></i>Your Order</h2>
+            <button class="cart-close" id="cartClose"><i class="fas fa-times"></i></button>
+        </div>
+        <div id="cartItems">
+            <div class="empty-cart">
+                <i class="fas fa-coffee"></i>
+                <p>Your cart is empty.</p>
+                <p style="font-size:0.85rem;">Start adding delicious items!</p>
+            </div>
+        </div>
+        <div id="cartFooter" style="display:none;">
+            <div class="cart-total">
+                <span>Total</span>
+                <span id="cartTotal">0 Frw</span>
+            </div>
+            <div class="cart-actions">
+                <button class="btn-clear" id="clearCart">Clear</button>
+                <button class="btn-checkout" id="checkoutBtn">Checkout</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ================================================================
+        // 1. MENU DATA (all items exactly as provided)
+        // ================================================================
+        const menuData = [
+            { category: "Espresso", items: [
+                { name: "Espresso Short", price: 1500 },
+                { name: "Espresso Double", price: 2000 },
+                { name: "Espresso Macchiato", price: 2500 },
+                { name: "Espresso Con Panna", price: 2500 }
+            ]},
+            { category: "Brewed Coffee & Others", items: [
+                { name: "Regular Coffee", price: 2500 },
+                { name: "Black Coffee", price: 2000 },
+                { name: "Americano", price: 2000 },
+                { name: "Cappuccino", price: 2500 },
+                { name: "Café Latte", price: 2500 },
+                { name: "Irish Coffee", price: 5000 },
+                { name: "African Coffee", price: 2500 },
+                { name: "Hot Chocolate", price: 3000 }
+            ]},
+            { category: "Tea", items: [
+                { name: "Black Tea", price: 1000 },
+                { name: "Mint Tea", price: 1500 },
+                { name: "African Tea", price: 2500 },
+                { name: "Spice Tea", price: 2500 },
+                { name: "Green Tea", price: 1500 },
+                { name: "Lemon Tea", price: 1500 }
+            ]},
+            { category: "Iced Coffee & Tea", items: [
+                { name: "Iced Americano", price: 2000 },
+                { name: "Iced Café Latte", price: 3000 },
+                { name: "Iced Café Mocha", price: 3500 },
+                { name: "Ice Tea", price: 2000 },
+                { name: "Ice Cappuccino", price: 3000 }
+            ]},
+            { category: "Smoothies", items: [
+                { name: "Hangover Cure (Mango, Lemon, Pineapple)", price: 6000 },
+                { name: "Energy Booster (Mango, Strawberry, Pineapple, Banana)", price: 7000 },
+                { name: "King and Queen (Mango, Strawberry, Pineapple, Orange, Banana)", price: 7000 },
+                { name: "Smoothie of your choice", price: 8000 }
+            ]},
+            { category: "Shakes", items: [
+                { name: "Chocolate Shake", price: 6000 },
+                { name: "Vanilla Shake", price: 6000 },
+                { name: "Strawberry Shake", price: 6000 },
+                { name: "Ice Cream (Vanilla, Strawberry, Chocolate)", price: 1000 }
+            ]},
+            { category: "Sandwiches", items: [
+                { name: "Croque Monsieur", price: 5000 },
+                { name: "Croque Madame", price: 6000 },
+                { name: "Fajita Sandwich", price: 5000 },
+                { name: "Tramezzini", price: 6000 }
+            ]},
+            { category: "Breakfast", items: [
+                { name: "Plain Omelette", price: 2000 },
+                { name: "Spanish Omelette", price: 3000 },
+                { name: "Cheese and Ham Omelette", price: 3000 },
+                { name: "Special Omelette", price: 4000 }
+            ]},
+            { category: "Soups", items: [
+                { name: "Vegetable Soup", price: 3000 },
+                { name: "Mushroom Soup", price: 4000 },
+                { name: "Fish Soup", price: 5000 },
+                { name: "Chicken Noodle Soup", price: 5000 },
+                { name: "Chinese Soup", price: 4000 }
+            ]},
+            { category: "Main Course – Chicken", items: [
+                { name: "Chicken Full", price: 20000},
+                { name: "Chicken Breast", price: 6000 },
+                { name: "Chicken Leg", price: 6000 },
+                { name: "Chicken Stew", price: 5000 },
+                { name: "Chicken Sweet & Sour", price: 6000 },
+                { name: "Chicken Wings", price: 5000 },
+                { name: "Chicken Stroganoff", price: 6000 }
+            ]},
+            { category: "Main Course – Fish", items: [
+                { name: "Fish Full", price: 20000},
+                { name: "Fish Fillet", price: 2600 },
+                { name: "Fish Stew", price: 2600 },
+                { name: "Fish Stroganoff", price: 6500 },
+                { name: "Fish Brochette", price: 7000 },
+                { name: "Fish Fingers", price: 6500 }
+            ]},
+            { category: "Main Course – Beef", items: [
+                { name: "Beef Stew", price: 4500 },
+                { name: "Beef Stroganoff", price: 5000 },
+                { name: "Beef Steak", price: 6000 },
+                { name: "Beef Curry", price: 6000 },
+                { name: "Beef Brochette", price: 5000 },
+                { name: "Liver Plate", price: 4000 }
+            ]},
+            { category: "Salads", items: [
+                { name: "Garden Salad", price: 3500 },
+                { name: "House Salad", price: 5000 },
+                { name: "Tuna Salad", price: 5000 }
+            ]},
+            { category: "Snacks", items: [
+                { name: "Chapati", price: 500 },
+                { name: "Sambusa", price: 500 },
+                { name: "Meat Ball", price: 500 },
+                { name: "Mini Pizza", price: 1000 },
+                { name: "Donuts", price: 500 },
+                { name: "Chips", price: 2000 }
+            ]},
+            { category: "Burgers", items: [
+                { name: "Beef Burger", price: 4000 },
+                { name: "Cheese Burger", price: 4500 },
+                { name: "King Double Burger", price: 7000 },
+                { name: "Chicken Burger", price: 5000 },
+                { name: "Fish Burger", price: 7000 }
+            ]},
+            { category: "Pasta", items: [
+                { name: "Spaghetti Bolognese", price: 5000 },
+                { name: "Spaghetti Napolitan", price: 4000 },
+                { name: "Spaghetti Carbonara", price: 5000 }
+            ]},
+            { category: "Pizza", items: [
+                { name: "Pizza Margherita (Tomato & Cheese)", price: 6000 },
+                { name: "Pizza Hawaii (Ham, Chicken, Cheese)", price: 9000 },
+                { name: "Pizza Mafioso (Ham, Chicken, Cheese)", price: 9000 },
+                { name: "Pizza 4 Seasons (Ham, Chicken, Mushroom, Cheese)", price: 9000 }
+            ]},
+            { category: "Fresh Juices", items: [
+                { name: "Passion Fruit", price: 3500 },
+                { name: "Mango", price: 4500 },
+                { name: "Pineapple", price: 3000 },
+                { name: "Watermelon", price: 2500 },
+                { name: "Tree Tomato", price: 4000 },
+                { name: "Papaya", price: 2500 },
+                { name: "Orange", price: 4000 },
+                { name: "Apple", price: 4000 },
+                { name: "Strawberry", price: 5000 },
+                { name: "Juice Cocktail", price: 5000 },
+                { name: "Monito", price: 5000 }
+            ]},
+            { category: "Wines & Liquor", items: [
+                { name: "Full Bottle Wine", price: 20000 },
+                { name: "Glass of Wine", price: 5000 },
+                { name: "Amarula (glass)", price: 10000 },
+                { name: "Hennessy (tot)", price: 8000 },
+                { name: "Black Label (tot)", price: 4000 },
+                { name: "Red Label (tot)", price: 3500 },
+                { name: "Leffe", price: 4500 },
+                { name: "Bavaria (large)", price: 3000 },
+                { name: "Bavaria (small)", price: 2500 },
+                { name: "Heineken (large)", price: 1550 },
+                { name: "Heineken (small)", price: 1300 },
+                { name: "Skol Canette", price: 3000 },
+                { name: "Petit Muzing (large)", price: 1300 },
+                { name: "Petit Muzing (small)", price: 1000 },
+                { name: "Petit Skol (large)", price: 1500 },
+                { name: "Petit Skol (small)", price: 1200 },
+                { name: "Tusker (large)", price: 1500 },
+                { name: "Tusker (medium)", price: 1250 },
+                { name: "Tusker (small)", price: 1000 }
+            ]}
+        ];
+
+        // ================================================================
+        // 2. BACKGROUND IMAGES FOR EACH CATEGORY
+        // ================================================================
+        const categoryBgMap = {
+            "Espresso": "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=1200&auto=format",
+            "Brewed Coffee & Others": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=1200&auto=format",
+            "Tea": "https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=1200&auto=format",
+            "Iced Coffee & Tea": "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=1200&auto=format",
+            "Smoothies": "https://images.unsplash.com/photo-1536935338788-846bb9981813?w=1200&auto=format",
+            "Shakes": "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=1200&auto=format",
+            "Sandwiches": "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=1200&auto=format",
+            "Breakfast": "https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?w=1200&auto=format",
+            "Soups": "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=1200&auto=format",
+            "Main Course – Chicken": "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=1200&auto=format",
+            "Main Course – Fish": "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=1200&auto=format",
+            "Main Course – Beef": "https://images.unsplash.com/photo-1558030006-450675393462?w=1200&auto=format",
+            "Salads": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=1200&auto=format",
+            "Snacks": "https://images.unsplash.com/photo-1625938144755-652e6e9b0b6c?w=1200&auto=format",
+            "Burgers": "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=1200&auto=format",
+            "Pasta": "https://images.unsplash.com/photo-1473093295043-cdd812d0e601?w=1200&auto=format",
+            "Pizza": "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=1200&auto=format",
+            "Fresh Juices": "https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=1200&auto=format",
+            "Wines & Liquor": "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=1200&auto=format"
+        };
+        const FALLBACK_BG = "https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=1200&auto=format";
+
+        // ================================================================
+        // 3. RENDER MENU & NAV
+        // ================================================================
+        const menuContainer = document.getElementById('menu-container');
+        const navLinksContainer = document.getElementById('navLinks');
+
+        function renderMenuAndNav() {
+            let menuHtml = '';
+            let navHtml = '';
+
+            menuData.forEach((cat, index) => {
+                const bgUrl = categoryBgMap[cat.category] || FALLBACK_BG;
+                const sectionId = `category-${index}`;
+
+                menuHtml += `
+                    <section class="category-section" id="${sectionId}" style="background-image: url('${bgUrl}');">
+                        <div class="category-overlay">   <!-- FIXED: renamed from "overlay" -->
+                            <div class="category-header">
+                                <i class="fas fa-utensils"></i>
+                                <h2>${cat.category}</h2>
+                                <span class="category-count">${cat.items.length} items</span>
+                            </div>
+                            <div class="menu-grid">
+                `;
+                cat.items.forEach(item => {
+                    menuHtml += `
+                        <div class="menu-item">
+                            <div class="item-name">${item.name}</div>
+                            <div class="item-price">${item.price.toLocaleString()} Frw</div>
+                            <button class="add-btn" data-name="${item.name}" data-price="${item.price}">
+                                <i class="fas fa-plus"></i> Add
+                            </button>
+                        </div>
+                    `;
+                });
+                menuHtml += `
+                            </div>
+                        </div>
+                    </section>
+                `;
+
+                navHtml += `<a href="#${sectionId}">${cat.category}</a>`;
+            });
+
+            menuContainer.innerHTML = menuHtml;
+            navLinksContainer.innerHTML = navHtml;
+
+            document.querySelectorAll('.add-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const name = this.dataset.name;
+                    const price = parseInt(this.dataset.price);
+                    addToCart(name, price);
+                });
+            });
+        }
+
+        // ================================================================
+        // 4. CART LOGIC
+        // ================================================================
+        let cart = [];
+        const cartItemsDiv = document.getElementById('cartItems');
+        const cartFooter = document.getElementById('cartFooter');
+        const cartTotalSpan = document.getElementById('cartTotal');
+        const cartBadge = document.getElementById('cartBadge');
+        const clearCartBtn = document.getElementById('clearCart');
+        const checkoutBtn = document.getElementById('checkoutBtn');
+
+        function addToCart(name, price) {
+            const existing = cart.find(item => item.name === name);
+            if (existing) {
+                existing.qty += 1;
+            } else {
+                cart.push({ name, price, qty: 1 });
+            }
+            updateCartUI();
+        }
+
+        function removeFromCart(name) {
+            cart = cart.filter(item => item.name !== name);
+            updateCartUI();
+        }
+
+        function changeQty(name, delta) {
+            const item = cart.find(i => i.name === name);
+            if (!item) return;
+            const newQty = item.qty + delta;
+            if (newQty <= 0) {
+                removeFromCart(name);
+            } else {
+                item.qty = newQty;
+                updateCartUI();
+            }
+        }
+
+        function clearCart() {
+            cart = [];
+            updateCartUI();
+        }
+
+        function getTotal() {
+            return cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+        }
+
+        function getItemCount() {
+            return cart.reduce((sum, item) => sum + item.qty, 0);
+        }
+
+        function updateCartUI() {
+            const count = getItemCount();
+            cartBadge.textContent = count;
+            cartBadge.style.display = count > 0 ? 'flex' : 'none';
+
+            if (cart.length === 0) {
+                cartItemsDiv.innerHTML = `
+                    <div class="empty-cart">
+                        <i class="fas fa-coffee"></i>
+                        <p>Your cart is empty.</p>
+                        <p style="font-size:0.85rem;">Start adding delicious items!</p>
+                    </div>
+                `;
+                cartFooter.style.display = 'none';
+                return;
+            }
+
+            let html = '';
+            cart.forEach(item => {
+                html += `
+                    <div class="cart-item">
+                        <div class="cart-item-info">
+                            <div class="cart-item-name">${item.name}</div>
+                            <div class="cart-item-price">${item.price.toLocaleString()} Frw</div>
+                        </div>
+                        <div class="cart-item-controls">
+                            <button class="qty-minus" data-name="${item.name}">−</button>
+                            <span class="cart-item-qty">${item.qty}</span>
+                            <button class="qty-plus" data-name="${item.name}">+</button>
+                            <button class="cart-item-remove" data-name="${item.name}"><i class="fas fa-trash-alt"></i></button>
+                        </div>
+                    </div>
+                `;
+            });
+            cartItemsDiv.innerHTML = html;
+
+            document.querySelectorAll('.qty-minus').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    changeQty(this.dataset.name, -1);
+                });
+            });
+            document.querySelectorAll('.qty-plus').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    changeQty(this.dataset.name, 1);
+                });
+            });
+            document.querySelectorAll('.cart-item-remove').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    removeFromCart(this.dataset.name);
+                });
+            });
+
+            cartFooter.style.display = 'block';
+            cartTotalSpan.textContent = getTotal().toLocaleString() + ' Frw';
+        }
+
+        // ================================================================
+        // 5. SIDEBAR TOGGLE
+        // ================================================================
+        const cartToggle = document.getElementById('cartToggle');
+        const cartClose = document.getElementById('cartClose');
+        const overlay = document.getElementById('overlay');
+        const cartSidebar = document.getElementById('cartSidebar');
+
+        function openCart() {
+            cartSidebar.classList.add('open');
+            overlay.classList.add('show');
+        }
+        function closeCart() {
+            cartSidebar.classList.remove('open');
+            overlay.classList.remove('show');
+        }
+
+        cartToggle.addEventListener('click', openCart);
+        cartClose.addEventListener('click', closeCart);
+        overlay.addEventListener('click', closeCart);
+
+        clearCartBtn.addEventListener('click', clearCart);
+        checkoutBtn.addEventListener('click', function() {
+            if (cart.length === 0) return;
+            const total = getTotal();
+            const itemsList = cart.map(i => `${i.name} x${i.qty}`).join('\n');
+            const message = `🍒 La Cerise Order:\n${itemsList}\n\nTotal: ${total.toLocaleString()} Frw`;
+            alert(message);
+        });
+
+        // ================================================================
+        // 6. INIT
+        // ================================================================
+        renderMenuAndNav();
+        updateCartUI();
+    </script>
+</body>
+</html>
